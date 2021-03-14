@@ -1,0 +1,23 @@
+[
+    {
+        "id": "435325",
+        "title": "A Book",
+        "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
+        "description": "This is an awesome book!",
+        "price": "19"
+    },
+    {
+        "id": "0.11422110803410068",
+        "title": "sdfas!!!",
+        "imageUrl": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+        "description": "another prod",
+        "price": "32"
+    },
+    {
+        "id": "0.6228541058170101",
+        "title": "hi",
+        "imageUrl": "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+        "description": "sfsdfsdf",
+        "price": "123"
+    }
+]
