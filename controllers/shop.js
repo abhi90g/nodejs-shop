@@ -28,7 +28,6 @@ exports.getProduct = (req, res, next) => {
 
   Product.findByPk(prodId)
     .then((product) => {
-      console.log('product --> ', product)
       res.render("shop/product-detail", {
         product: product,
         pageTitle: product.title,

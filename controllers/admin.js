@@ -13,11 +13,12 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.create({
+  // from sequelize associations
+  req.user.createProduct({
     title: title,
     price: price,
     imageUrl: imageUrl,
-    description: description
+    description: description,
   })
   .then(result => {
     console.log('created product using sequelize')
@@ -34,8 +35,10 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/");
   }
   const prodId = req.params.productId;
-  Product.findByPk(prodId)
-    .then(product => {
+  // for user currently logged in
+  req.user.getProducts({ where: {id: prodId } })
+    .then(products => {
+      const product = products[0]
       if (!product) {
         return res.redirect("/");
       }
@@ -47,6 +50,19 @@ exports.getEditProduct = (req, res, next) => {
       });
     })
     .catch(err => console.log(err))
+  // Product.findByPk(prodId)
+  //   .then(product => {
+  //     if (!product) {
+  //       return res.redirect("/");
+  //     }
+  //     res.render("admin/edit-product", {
+  //       pageTitle: "Edit Product",
+  //       path: "/admin/add-product",
+  //       editing: editMode,
+  //       product: product,
+  //     });
+  //   })
+  //   .catch(err => console.log(err))
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -80,8 +96,8 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  // using sequelize
-  Product.findAll()
+  // get products for current user only
+  req.user.getProducts()
     .then(products => {
       res.render("admin/products", {
         prods: products,
@@ -89,9 +105,18 @@ exports.getProducts = (req, res, next) => {
         path: "/admin/products",
       });
     })
-    .catch(err => {
-    console.log(err)
-  })
+    .catch(err => console.log(err))
+  // // using sequelize
+  // Product.findAll()
+  //   .then(products => {
+  //     res.render("admin/products", {
+  //       prods: products,
+  //       pageTitle: "Admin Products",
+  //       path: "/admin/products",
+  //     });
+  //   })
+  //   .catch(err => console.log(err))
+  // // using sql fetchAll
   // Product.fetchAll((products) => {
   //   res.render("admin/products", {
   //     prods: products,
