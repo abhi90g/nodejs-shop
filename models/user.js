@@ -105,9 +105,8 @@ class User {
     const db = getDb();
     return db
       .collection("orders")
-      .find({ "user.id": new ObjectId(this._id) })
+      .find({ "user._id": new ObjectId(this._id) })
       .toArray()
-      .then(result => console.log(result))
   }
 
   static findById(userId) {
