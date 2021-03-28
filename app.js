@@ -1,9 +1,10 @@
 const path = require("path");
 
 const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const errorController = require("./controllers/error");
-const mongoConnect = require("./util/database").mongoConnect;
 const User = require("./models/user");
 
 const app = express();
@@ -13,17 +14,15 @@ app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-// const Cart = require("./models/cart");
-// const CartItem = require("./models/cart-item");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // adding middleware
 app.use((req, res, next) => {
-  User.findById("6060e0725ac076cee38483fd")
+  User.findById("6061099116f4ef25db6aebf9")
     .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((err) => console.log(err));
@@ -33,7 +32,25 @@ app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorController.get404);
-
-mongoConnect(() => {
-  app.listen(3000);
-});
+const uri =
+  "";
+mongoose
+  .connect(uri, { useNewUrlParser: true })
+  .then((result) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: "Abhinav",
+          email: "ab@gmail.com",
+          cart: {
+            items: [],
+          },
+        });
+        user.save();
+      }
+    });
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
